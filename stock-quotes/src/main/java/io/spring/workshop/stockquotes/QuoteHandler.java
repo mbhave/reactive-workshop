@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
 
-import static org.springframework.http.MediaType.APPLICATION_STREAM_JSON;
+import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.web.reactive.function.server.ServerResponse.ok;
 
 @Component
@@ -18,9 +18,9 @@ public class QuoteHandler {
 		this.quoteGenerator = quoteGenerator;
 	}
 
-	public Mono<ServerResponse> streamQuotes(ServerRequest request) {
+	public Mono<ServerResponse> fetchQuotes(ServerRequest request) {
 		return ok()
-				.contentType(APPLICATION_STREAM_JSON)
-				.body(this.quoteGenerator.fetchQuoteStream(), Quote.class);
+				.contentType(APPLICATION_JSON)
+				.body(this.quoteGenerator.fetchQuoteStream().take(7), Quote.class);
 	}
 }

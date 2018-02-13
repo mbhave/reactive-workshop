@@ -8,12 +8,13 @@
 
 package io.spring.workshop.tradingservice;
 
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
-
-import org.springframework.http.MediaType;
+import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.http.RequestEntity;
 import org.springframework.stereotype.Component;
-import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriTemplate;
+
+import static org.springframework.http.MediaType.APPLICATION_JSON;
 
 /**
  * @author Madhura Bhave
@@ -21,23 +22,20 @@ import org.springframework.web.reactive.function.client.WebClient;
 @Component
 public class TradingCompanyService {
 
-	public Flux<TradingCompany> findAllCompanies() {
-		return WebClient.create("http://localhost:8082")
-				.get()
-				.uri("/details")
-				.accept(MediaType.APPLICATION_JSON)
-				.retrieve()
-				.bodyToFlux(TradingCompany.class)
-				.log("io.spring.workshop.tradingservice.details");
+
+	private final RestTemplate restTemplate;
+
+	public TradingCompanyService(RestTemplateBuilder restTemplateBuilder) {
+		this.restTemplate = restTemplateBuilder.build();
 	}
 
-	public Mono<TradingCompany> getTradingCompany(String ticker) {
-		return WebClient.create("http://localhost:8082")
-				.get()
-				.uri("/details/{ticker}", ticker)
-				.accept(MediaType.APPLICATION_JSON)
-				.retrieve()
-				.bodyToMono(TradingCompany.class)
-				.log("io.spring.workshop.tradingservice.details.ticker");
+	public TradingCompany getTradingCompany(String ticker) {
+
+		RequestEntity requestEntity = RequestEntity.get(new UriTemplate("http://localhost:8082/details/{ticker}").expand(ticker))
+				.accept(APPLICATION_JSON).build();
+
+		return this.restTemplate
+				.exchange(requestEntity, TradingCompany.class)
+				.getBody();
 	}
 }
