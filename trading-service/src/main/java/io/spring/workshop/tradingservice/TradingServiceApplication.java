@@ -9,4 +9,5 @@ public class TradingServiceApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(TradingServiceApplication.class, args);
 	}
+
 }
