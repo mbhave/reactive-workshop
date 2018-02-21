@@ -8,13 +8,13 @@
 
 package io.spring.workshop.tradingservice;
 
-public class TradingCompanyLatestQuote {
+public class TradingCompanySummary {
 
 	private final Quote latestQuote;
 
 	private final TradingCompany tradingCompany;
 
-	public TradingCompanyLatestQuote(Quote latestQuote, TradingCompany tradingCompany) {
+	public TradingCompanySummary(Quote latestQuote, TradingCompany tradingCompany) {
 		this.latestQuote = latestQuote;
 		this.tradingCompany = tradingCompany;
 	}
