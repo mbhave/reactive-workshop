@@ -41,13 +41,13 @@ public class QuotesController {
 	@GetMapping(path = "/quotes/feed", produces = APPLICATION_JSON_VALUE)
 	@ResponseBody
 	@SuppressWarnings("unchecked")
-	public List<Quote> latestQuotes() throws Exception {
-		RequestEntity requestEntity = RequestEntity.get(new URI("http://localhost:8081/quotes"))
+	public List<?> latestQuotes() throws Exception {
+		RequestEntity requestEntity = RequestEntity.get(new URI("http://localhost:8081/quotes?take=7"))
 				.accept(APPLICATION_JSON)
 				.build();
 
 		return this.restTemplate
-				.exchange(requestEntity, new ParameterizedTypeReference<List<Quote>>() {})
+				.exchange(requestEntity, List.class)
 				.getBody();
 	}
 
