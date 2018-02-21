@@ -21,6 +21,9 @@ public class QuoteHandler {
 	public Mono<ServerResponse> fetchQuotes(ServerRequest request) {
 		return ok()
 				.contentType(APPLICATION_JSON)
-				.body(this.quoteGenerator.fetchQuoteStream().take(7), Quote.class);
+				.body(this.quoteGenerator.fetchQuoteStream()
+				                         .take(request.queryParam("take")
+				                                      .map(Integer::parseInt)
+				                                      .orElse(7)), Quote.class);
 	}
 }

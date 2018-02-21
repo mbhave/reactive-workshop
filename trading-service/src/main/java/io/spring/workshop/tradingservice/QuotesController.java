@@ -54,7 +54,7 @@ public class QuotesController {
 	@GetMapping(path = "/quotes/summary/{ticker}", produces = APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public TradingCompanySummary quotesDetails(@PathVariable String ticker) throws Exception {
-		RequestEntity requestEntity = RequestEntity.get(new URI("http://localhost:8081/quotes"))
+		RequestEntity requestEntity = RequestEntity.get(new URI("http://localhost:8081/quotes?take=7"))
 				.accept(APPLICATION_JSON)
 				.build();
 
